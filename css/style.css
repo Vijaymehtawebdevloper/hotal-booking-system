@@ -1,0 +1,50 @@
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --teal: #18bea3;
+    --teal-hover: #279e8c;
+}
+
+.h-font {
+    font-family: 'Merienda', cursive;
+}
+
+.custom-bg {
+    background-color: var(--teal);
+}
+
+.custom-bg:hover {
+    background-color: var(--teal-hover);
+}
+
+.availability-form {
+    margin-top: -50px;
+    z-index: 2;
+    position: relative;
+}
+
+.swiper-wrapper {
+    height: auto;
+}
+
+.h-line {
+    width: 150px;
+    margin: 0 auto;
+    height: 2.7px;
+}
+
+.custom-alert {
+    position: fixed;
+    top: 80px;
+    right: 25px;
+    z-index: 1111;
+}
+
+@media screen and (max-width:575px) {
+    .availability-form {
+        margin-top: 25px;
+        padding: 9 35px;
+    }
+}

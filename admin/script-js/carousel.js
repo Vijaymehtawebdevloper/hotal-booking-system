@@ -1,0 +1,79 @@
+let carousel_s_form = document.getElementById('carousel_s_form');
+let carousel_picture_inp = document.getElementById('carousel_picture_inp');
+
+carousel_s_form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    add_image();
+})
+
+
+
+function add_image() {
+    let data = new FormData();
+    data.append('picture', carousel_picture_inp.files[0]);
+    data.append('add_image', '');
+
+    let xhr = new XMLHttpRequest;
+    xhr.open('POST', 'ajax/carousel_crud.php', true);
+
+    xhr.onload = function() {
+        let myModals = document.getElementById('carousel-s');
+        let modal = bootstrap.Modal.getInstance(myModals);
+        modal.hide();
+
+        if (this.responseText == 'inv_img') {
+
+            alert('error', 'only jpg and png image are allowed')
+        } else if (this.responseText == 'inv_size') {
+
+            alert('error', 'Image should be less tehan 2mb')
+        } else if (this.responseText == 'upd_faild') {
+
+            alert('error', 'Image upload faild. Server down')
+        } else {
+            alert('success', 'New Image added')
+            carousel_picture_inp.value = '';
+            get_carousel()
+        }
+    }
+    xhr.send(data);
+
+}
+
+function get_carousel() {
+    let xhr = new XMLHttpRequest;
+    xhr.open('POST', 'ajax/carousel_crud.php', true);
+    xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        // let myModals = document.getElementById('contacts-s');
+        // let modal = bootstrap.Modal.getInstance(myModals);
+        // modal.hide();
+
+        document.getElementById('carousel-data').innerHTML = this.responseText
+    }
+    xhr.send('get_carousel');
+}
+
+function rem_image(val) {
+    let xhr = new XMLHttpRequest;
+    xhr.open('POST', 'ajax/carousel_crud.php', true);
+    xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        // let myModals = document.getElementById('contacts-s');
+        // let modal = bootstrap.Modal.getInstance(myModals);
+        // modal.hide();
+
+        if (this.responseText == 1) {
+            alert('success', 'Image removed!');
+            get_carousel()
+        } else {
+            alert('error', 'Server down!')
+        }
+        console.log(this.responseText)
+    }
+    xhr.send('rem_image=' + val);
+}
+
+window.onload = function() {
+    get_carousel()
+}
